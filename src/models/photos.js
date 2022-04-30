@@ -10,7 +10,6 @@ const PhotoSchema = new Schema({
     url: {
         type: String,
     }
-
 },
 {
     versionKey: false,
