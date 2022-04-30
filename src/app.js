@@ -5,7 +5,7 @@ const morgan = require("morgan");
 require("dotenv").config();
 
 // mongoose db config
-/* require("./src/db.js"); */
+require("./db");
 const indexRouter = require("./router/index.routes");
 const PORT = process.env.PORT || 3000;
 // middleware
