@@ -3,7 +3,8 @@ const PhotoSchema = require('../models/photos')
 class PhotoController {
   async getAllImages(req, res) {
     const photos = await PhotoSchema.find();
-    res.json(photos);
+    res.send("<h1>All photos</h1>")
+    /* res.json(photos); */
   }
 
   async getImageById(req, res) {
