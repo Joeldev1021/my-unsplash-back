@@ -6,7 +6,7 @@ require("dotenv").config();
 
 // mongoose db config
 /* require("./src/db.js"); */
-const indexRouter = require("./src/router/index.routes");
+const indexRouter = require("./router/index.routes");
 const PORT = process.env.PORT || 3000;
 // middleware
 app.use(morgan("dev"));
