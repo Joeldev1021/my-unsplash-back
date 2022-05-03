@@ -8,7 +8,6 @@ router.get("/:id", PhotoController.getImageById)
 
 router.post('/', PhotoController.createImage)
 
-
 /*
 router.put('/:id', PhotoController.updateImage)
 
