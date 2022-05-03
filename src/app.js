@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 // dotenv config
 require("dotenv").config();
 
@@ -9,6 +10,7 @@ require("./db");
 const indexRouter = require("./router/index.routes");
 const PORT = process.env.PORT || 3000;
 // middleware
+app.use(cors())
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

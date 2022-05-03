@@ -13,11 +13,12 @@ class PhotoController {
 
   async createImage(req, res) {
       const photo = new PhotoSchema(req.body) 
-    const photoSave = await photo.save()
+       const photoSave = await photo.save()
     res.json({
-        message: "Photo saved successfully",
+        message: `Photo with id ${photoSave.label} created successfully`,
     })
   }
+  
   async updateImage(req, res) {
     const {id} = req.params
     console.log(id)
