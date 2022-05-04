@@ -1,44 +1,61 @@
-const PhotoSchema = require('../models/photos')
+const PhotoSchema = require("../models/photos");
 
 class PhotoController {
   async getAllImages(req, res) {
-    const photos = await PhotoSchema.find();
-    res.json(photos); 
+    try {
+      const photos = await PhotoSchema.find();
+      res.json(photos);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 
   async getImageById(req, res) {
-    const photo = await PhotoSchema.findById(req.params.id)
-    res.json(photo)
+    try {
+      const photo = await PhotoSchema.findById(req.params.id);
+      res.json(photo);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 
   async createImage(req, res) {
-      const photo = new PhotoSchema(req.body) 
-       const photoSave = await photo.save()
-    res.json({
-        message: `Photo with id ${photoSave.label} created successfully`,
-    })
+    try {
+      if (!req.body.label || !req.body.url)
+        return res.status(400).json({ message: "Label is required" });
+      const photo = new PhotoSchema(req.body);
+      const photoSave = await photo.save();
+      res.json({message: `Photo with id ${photoSave.label} created successfully`});
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
-  
+
   async updateImage(req, res) {
-    const {id} = req.params
-    console.log(id)
-    const photo = await PhotoSchema.findById(id)    
-    if(!photo) return res.status(404).send("Photo not found")
-    const updatePhoto = await PhotoSchema.findByIdAndUpdate(id, req.body)
-    res.json({
-        message: `Photo with id ${updatePhoto.id}  updated successfully`,
-    }) 
+    const { id } = req.params;
+    try {
+      if (!req.body.label || !req.body.url)
+        return res.status(400).json({ message: "Label is required" });
+
+      const photo = await PhotoSchema.findById(id);
+      if (!photo) return res.status(404).send("Photo not found");
+
+      const updatePhoto = await PhotoSchema.findByIdAndUpdate(id, req.body);
+      res.json({message: `Photo with id ${updatePhoto.id}  updated successfully`});
+    } catch (error) {
+      res.json({ message: error.message });
+    }
   }
 
   async deleteImage(req, res) {
-    const {id} = req.params
-    const photo = await PhotoSchema.findById(id)
-    if(!photo) return res.status(404).send("Photo not found")
-    const photoDelete = await PhotoSchema.findByIdAndDelete(id)
+    const { id } = req.params;
+    const photo = await PhotoSchema.findById(id);
+    if (!photo) return res.status(404).json({ message: "Photo not found" });
+    const photoDelete = await PhotoSchema.findByIdAndDelete(id);
     res.json({
-        message: `Photo with id ${photoDelete.label} deleted successfully`,
-    })
+      message: `Photo with id ${photoDelete.label} deleted successfully`,
+    });
   }
 }
 
-module.exports =new PhotoController();
+module.exports = new PhotoController();
