@@ -1,11 +1,25 @@
-import React from 'react'
+import React from "react";
+import Search from "../search/Search";
+import "./index.scss";
 
-const Header = () => {
-  return (
-      <header className="header">
-          <img src="./logo.svg" alt="logo" />
-      </header>
-  )
+import { Photo } from "../../interface";
+
+interface Props {
+  handleSearch: (value: string) =>void;
+  setIsModalOpen: (value: boolean) => void;
 }
 
-export default Header
+const Header:React.FC<Props> = ({handleSearch, setIsModalOpen})  => {
+ 
+  return (
+    <header className="header">
+      <div style={{"display": "flex"}}>
+        <img src="./logo.svg" alt="logo" />
+        <Search handleSearch={handleSearch}/>
+      </div>
+      <button onClick={() => setIsModalOpen(true)} className="header-btn">Add Photo</button>
+    </header>
+  );
+};
+
+export default Header;
