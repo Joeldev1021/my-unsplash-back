@@ -1,51 +1,39 @@
-import { useEffect, useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useContext, useEffect, useState } from "react";
+import "./App.scss";
+import Header from "./components/header/Header";
+import ListPhoto from "./components/ListPhoto/ListPhoto";
+import ModalCreate from "./components/modal/ModalCreate";
+import { PhotoContext } from "./context/PhotoContext";
+import { Photo} from "./interface";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [dataFilter, setDataFilter] = useState<Photo[] | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { photos } = useContext(PhotoContext);
 
   useEffect(() => {
-    fetch('https://unsplash-back.herokuapp.com') 
-     .then(res => res.json())
-      .then(data => console.log(data))
-  }, [])
+    setDataFilter(photos); 
+  }, [photos])
+
+  const handleSearch = (value: string) => {
+     setDataFilter(photos.filter(photo => photo.label.includes(value))) 
+  }
   
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+      <Header setIsModalOpen={setIsModalOpen} handleSearch={handleSearch} />
+      <div className="wrapper-photo">
+        {dataFilter &&
+          dataFilter?.map((item: Photo) => {
+            return (
+              <ListPhoto key={item._id} label={item.label} url={item.url} />
+            );
+          })}
+      </div>
+      {isModalOpen && <ModalCreate setDataFilter={setDataFilter}  setIsModalOpen={setIsModalOpen} />}     
+   </div>
+  );
 }
 
-export default App
+export default App;
