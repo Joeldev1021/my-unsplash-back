@@ -1,0 +1,31 @@
+.App {
+    width: 85%;
+    margin: auto;
+    @media screen and (max-width: 768px) {
+       width: 90%;; 
+    }
+    @media screen and (max-width: 500px) {
+       width: 99%; 
+    }
+}
+.wrapper-photo {
+    margin: auto;
+    columns: 5 320px;
+    column-gap: 30px; 
+    
+}
+
+.btn {
+     background:#3DB46D;
+    border: none;
+    color:white;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'montserrat';
+    min-width: 105px;
+}
+
+.btn-danger {
+    background:red;
+    margin-right: 10px;
+}
