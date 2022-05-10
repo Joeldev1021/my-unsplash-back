@@ -25,7 +25,10 @@ class PhotoController {
         return res.status(400).json({ message: "Label is required" });
       const photo = new PhotoSchema(req.body);
       const photoSave = await photo.save();
-      res.json({message: `Photo with id ${photoSave.label} created successfully`});
+      res.json({
+      message: `Photo with id ${photoSave.label} created successfully`,
+      photo: photoSave
+    });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -41,7 +44,10 @@ class PhotoController {
       if (!photo) return res.status(404).send("Photo not found");
 
       const updatePhoto = await PhotoSchema.findByIdAndUpdate(id, req.body);
-      res.json({message: `Photo with id ${updatePhoto.id}  updated successfully`});
+      res.json({
+        message: `Photo with id ${updatePhoto.id}  updated successfully`,
+        photo: updatePhoto
+      });
     } catch (error) {
       res.json({ message: error.message });
     }
@@ -54,6 +60,7 @@ class PhotoController {
     const photoDelete = await PhotoSchema.findByIdAndDelete(id);
     res.json({
       message: `Photo with id ${photoDelete.label} deleted successfully`,
+      photo: photoDelete
     });
   }
 }
