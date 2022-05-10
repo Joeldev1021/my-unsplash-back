@@ -18,4 +18,13 @@
         }
     }
 
+    @media screen and (max-width: 768px) {
+        width: 150px;
+        img {
+            width: 15px;
+        }
+        input {
+            font-size: 14px;
+        }
+    }
 }
