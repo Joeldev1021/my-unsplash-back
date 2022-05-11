@@ -3,7 +3,7 @@ const PhotoSchema = require("../models/photos");
 class PhotoController {
   async getAllImages(req, res) {
     try {
-      const photos = await PhotoSchema.find();
+      const photos = await PhotoSchema.find().sort({ createdAt: -1 });
       res.json(photos);
     } catch (error) {
       res.status(500).json({ message: error.message });
