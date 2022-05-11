@@ -1,10 +1,11 @@
-import { Photo, PhotoContextProps, PhotoState } from "../interface";
+import { Photo, PhotoState } from "../interface";
 
 type PhotoAction =
     | { type: "LOAD_PHOTO"; payload: Photo[] }
     | { type: "ADD_PHOTO", payload: Photo }
     | { type: "DELETE_PHOTO", payload: Photo }
     | { type: "UPDATE_PHOTO", payload: Photo }
+    | { type: "CREATE_PASSWORD", payload: string }
 
 export const reducerPhoto = (state:PhotoState , action: PhotoAction) => {
     switch (action.type) {
@@ -16,12 +17,17 @@ export const reducerPhoto = (state:PhotoState , action: PhotoAction) => {
         case "ADD_PHOTO":
             return {
                 ...state,
-                photos: [...state.photos, action.payload]
+                photos: [action.payload, ...state.photos ]
             }
         case "DELETE_PHOTO":
             return {
                 ...state,
                 photos: state.photos.filter(item => item._id !== action.payload._id)
+            }
+        case "CREATE_PASSWORD":
+            return {
+                ...state,
+                password: action.payload
             }
         default:
             return state;
