@@ -4,19 +4,32 @@ import "./index.scss";
 
 interface Props {
   type: string;
-  setIsModalPasswordOpen?: (value: boolean) => void;
+  setAlertDelete?: (value: boolean) => void;
+  id?: string;
 }
 
-const ModalPassword: React.FC<Props> = ({setIsModalPasswordOpen,type}) => {
+const ModalPassword: React.FC<Props> = ({setAlertDelete, type, id}) => {
+
   const [value, setValue] = useState("");
-  const { createPassword } = useContext(PhotoContext);
+  const { createPassword, password, deletePhoto } = useContext(PhotoContext);
+  const [msgIncorrect, setMsgIncorrect] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    /// create password user
     if(type == "create-password"){
       createPassword(value)
     }
-
+    // delete photo
+    if(type == "delete"){
+      if(value == password){
+        setAlertDelete!(false);
+        deletePhoto(id!)
+      }else {
+        setMsgIncorrect(true);
+        console.log("password incorrect");
+      }
+    }
   };
 
   return ( 
@@ -34,20 +47,23 @@ const ModalPassword: React.FC<Props> = ({setIsModalPasswordOpen,type}) => {
           defaultValue={value}
           placeholder="password"
         />
+        {msgIncorrect == true && type === "delete" && <p className="form-msg">Password incorrect</p>}
         <div className="btn-group">
-          <button
-            type="submit"
-            className={type === "delete" ? "btn btn-danger" : "btn"}
+          <button type="submit" style={{'opacity': `${value.length > 1 ? "1": "0.8"}`}} className={type === "delete" ? "btn btn-danger" : "btn"}
+           disabled={value.length > 1 ? false : true}
           >
             { type== "delete" ? "Delete" : "Create"}
           </button>
+          {type == "delete" && 
           <button
             type="button"
-            className={"btn btn-danger"}
-            onClick={() => setIsModalPasswordOpen!(false)}
+            className={"btn btn-cancel"}
+            onClick={() => setAlertDelete!(false)}
           >
             Cancel
           </button>
+          }
+          
         </div>
       </form>
     </div>
