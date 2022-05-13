@@ -7,7 +7,6 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 100;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -15,24 +14,39 @@
   z-index: 200;
   background: white;
   width: 520px;
+  margin:auto;
   display: flex;
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  h2 {
+  @media screen and (max-width:600px) {
+    width: 80%;
+  } 
+  .form-title {
+    font-size: 24px;
+    margin: 0;
+    margin-left: 10px;
+    padding: 10px 0;
     font-family: "montserrat";
   }
   label {
     font-family: "montserrat";
     font-size: 16px;
+    margin-left: 10px;
     margin-bottom: 10px;
   }
   input {
-    width: 500px;
+    width: 490px;
     height: 40px;
+    margin: auto;
     border-radius: 10px;
-    border:solid 1px #4F4F4F;
+    border:solid 1px #8d8c8c;
     outline: none;
+    padding: 0 10px;
+    color: #8d8c8c;
+    @media screen and (max-width:600px) {
+      width: 90%; 
+    }  
   }
 }
 
@@ -40,4 +54,18 @@
   margin-top: 20px;
   display: flex;
   flex-direction: row-reverse;
+}
+
+.btn-cancel {
+  background: #fafafa;
+  border: solid 1px #8d8c8c;
+  color: black;
+  margin-right: 5px;
+}
+
+.form-msg {
+  font-family: "montserrat";
+  margin: 0;
+  color: #EB5757;
+  padding: 5px;
 }
