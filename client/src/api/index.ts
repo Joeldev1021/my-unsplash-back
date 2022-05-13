@@ -1,14 +1,14 @@
 import { Photo } from "../interface";
 
-
+const URL = 'https://unsplash-back.herokuapp.com/'
 const loadPhotosApi = async () => {
-    const res = await fetch('http://localhost:4000');
+    const res = await fetch(URL)
     const photos = await res.json();
     return photos;
 }
 
 const createNewPhoto = async (photo: Photo) => {
-    const res = await fetch('http://localhost:4000', {
+    const res = await fetch(URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ const createNewPhoto = async (photo: Photo) => {
 
 
 const deletePhotoApi = async (id: string ) => {
-    const res = await fetch(`http://localhost:4000/${id}`, {
+    const res = await fetch(`${URL}${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
