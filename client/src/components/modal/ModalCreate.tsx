@@ -1,16 +1,18 @@
-import { useState } from "react";
-import { createNewPhoto } from "../../api";
+import { useContext, useState } from "react";
+import { PhotoContext } from "../../context/PhotoContext";
 import {Photo} from  "../../interface"
 import "./index.scss";
 
 
 interface Props {
     setIsModalOpen: (value: boolean) => void;
-    setDataFilter: (value: Photo[]) => void;
 }
 
-const ModalCreate:React.FC<Props> = ({setIsModalOpen, setDataFilter}) => {
-    const [newPhoto, setNewPhoto] = useState<Photo>({label: "", url: ""});
+const ModalCreate:React.FC<Props> = ({setIsModalOpen }) => {
+
+  const { addPhoto } = useContext(PhotoContext);
+
+  const [newPhoto, setNewPhoto] = useState<Photo>({label: "", url: ""});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPhoto({...newPhoto, [e.target.name]: e.target.value})
@@ -18,14 +20,15 @@ const ModalCreate:React.FC<Props> = ({setIsModalOpen, setDataFilter}) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const savePhoto = await createNewPhoto(newPhoto)
-    console.log("save =>", savePhoto)
+    setIsModalOpen(false);
+    if(newPhoto.label.length> 0 && newPhoto.url.length >0) addPhoto(newPhoto);
+    else alert("Please fill all the fields");
   }
 
   return (
     <div className="container-modal">
       <form className="form" onSubmit={(e) => handleSubmit(e)}>
-        <h2>Add a new photo</h2>
+        <p className="form-title">Add a new photo</p>
         <label htmlFor="label">Label</label>
         <input type="text" id="label" name="label" onChange={(e)=> handleChange(e)} defaultValue={newPhoto.label} placeholder="write some label" />
         <label htmlFor="url">Photo URL</label>
