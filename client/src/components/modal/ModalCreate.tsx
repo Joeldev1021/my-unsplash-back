@@ -13,6 +13,7 @@ const ModalCreate:React.FC<Props> = ({setIsModalOpen }) => {
   const { addPhoto } = useContext(PhotoContext);
 
   const [newPhoto, setNewPhoto] = useState<Photo>({label: "", url: ""});
+  const rx =new RegExp('(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPhoto({...newPhoto, [e.target.name]: e.target.value})
@@ -20,10 +21,12 @@ const ModalCreate:React.FC<Props> = ({setIsModalOpen }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsModalOpen(false);
-    if(newPhoto.label.length> 0 && newPhoto.url.length >0) addPhoto(newPhoto);
-    else alert("Please fill all the fields");
-  }
+     setIsModalOpen(false);
+    if( newPhoto.label.length> 0 && newPhoto.label.length > 0){
+      if(rx.test(newPhoto.url)) addPhoto(newPhoto);
+      else alert("Url is not valid");
+    }else alert("Please fill all the fields");
+ }
 
   return (
     <div className="container-modal">
